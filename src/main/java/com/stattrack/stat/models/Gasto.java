@@ -2,6 +2,8 @@ package com.stattrack.stat.models;
 
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -35,6 +37,13 @@ public class Gasto {
         this.gastoCantidad = gastoCantidad;
         this.gastoFecha = gastoFecha;
         this.categoria = categoria;
+    }
+
+    /**
+     * Constructor vacio
+     */
+    public Gasto(){
+
     }
 
     /**
@@ -96,8 +105,9 @@ public class Gasto {
      *
      * @return gastoFecha
      */
-    public Date getGastoFecha() {
-        return gastoFecha;
+    public String getGastoFecha() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return formatter.format(gastoFecha);
     }
 
     /**

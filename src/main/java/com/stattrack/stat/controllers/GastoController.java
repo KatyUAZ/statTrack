@@ -1,16 +1,14 @@
 package com.stattrack.stat.controllers;
 
 import com.stattrack.stat.dao.GastoDAO;
-import com.stattrack.stat.models.Categoria;
 import com.stattrack.stat.models.Gasto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
+@RestController
 public class GastoController implements GastoDAO {
     @Autowired
     private GastoDAO gastoDAO;
@@ -29,12 +27,10 @@ public class GastoController implements GastoDAO {
     /**
      * Permite guardar un nuevo gasto
      *
-     * @param gasto
      */
-    @RequestMapping(value = "guardar-gasto", method = RequestMethod.POST)
-    public void registrarGasto(@RequestBody Gasto gasto) {
-
-        gastoDAO.registrarGasto(gasto);
+    @RequestMapping(value = "guardargasto/{decrip}/{categoria}/{cant}", method = RequestMethod.POST)
+    public void registrarGasto(@PathVariable String decrip,@PathVariable int categoria, @PathVariable double cant ) {
+        gastoDAO.registrarGasto(decrip, categoria,  cant);
     }
 
     /**
@@ -66,5 +62,15 @@ public class GastoController implements GastoDAO {
     @RequestMapping(value = "gasto/{id}", method = RequestMethod.GET)
     public Gasto getGasto(@PathVariable int id) {
         return gastoDAO.getGasto(id);
+    }
+
+    /**
+     * Este metodo permite comprobar la cantidad del gasto para saber si sobrepasa el presupuesto
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "comprobargasto/{id}", method = RequestMethod.GET)
+    public int comprobarGastos(@PathVariable int id){
+        return  gastoDAO.comprobarGastos(id);
     }
 }
